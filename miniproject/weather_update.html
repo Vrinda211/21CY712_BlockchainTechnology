@@ -1,0 +1,197 @@
+<html>
+<head>
+<title>Weather update</title>
+</head>
+    <body>
+	<p><a href="Beekeeper.html"><button type="submit" class="hidden" style='margin-right:16px'>Beekeeper Registration</button></a><a href="Distributor.html"><button type="submit" class="hidden" style='margin-right:16px'>Distributor Registration</button></a><a href="Distributor_details.html"><button type="submit" class="hidden" style='margin-right:16px'>View Distibutor Details</button></a><a href="record_details.html"><button type="submit" class="hidden" style='margin-right:16px'>View Honey Record</button></a><a href="examine_details.html"><button type="submit" class="hidden" style='margin-right:16px'>View Distributor Examine details</button></a></p>
+      
+        <h1>Weather Report</h1>
+        <script src="https://cdn.jsdelivr.net/npm/web3@1.2.8/dist/web3.js"></script>
+    <script>	
+	
+	var account;
+	window.addEventListener('load', async () => {
+                console.log("In Event Listener");
+		if (typeof window.ethereum !== 'undefined') { 
+			console.log("MetaMask is Available :) !"); 
+			}
+			
+		// Modern DApp browsers
+		if (window.ethereum) {
+			window.web3 = new Web3(ethereum);
+			
+			// To prevent the page reloading when the MetaMask network changes
+			ethereum.autoRefreshOnNetworkChange = false;
+			
+			// To Capture the account details from MetaMask
+			const accounts = await ethereum.enable();
+			account = accounts[0];
+				
+			}
+		console.log(account);
+			
+			});
+    	
+        var abi = [
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_precipitatn",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_Rainfall_ch",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_humidity",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_day",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_temperature",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_location",
+				"type": "string"
+			}
+		],
+		"name": "store_weather_details",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "location",
+				"type": "string"
+			}
+		],
+		"name": "retreive_weather_details",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+        var contractaddress = '0xD3557B2e27eAf9082EcaE0056B11108f54582e39';
+        
+        function add_details() {
+            var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '5000000', gas: '500000'});
+			var ds1 = document.getElementById("precip").value;
+			var ds2 = document.getElementById("cor").value;
+                        var tname = document.getElementById("hum").value;
+                        var id = document.getElementById("day").value;
+                        var tdate = document.getElementById("temp").value;
+                        var tdate1 = document.getElementById("loc").value;
+             var result = myContract.methods.store_weather_details(ds1,ds2,tname,id,tdate,tdate1).send(function (err, result) {
+               
+                if (err) { console.log(err); }
+                if (result) { document.getElementById("result").innerHTML = result; }
+               
+                });
+        }
+		function show_details() {
+            var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '5000000', gas: '500000'});
+            var idd = document.getElementById("tid").value;
+             var result = myContract.methods.retreive_weather_details(idd).call(function (err, result) {
+               
+                if (err) { console.log(err); }
+                if (result) { 
+                    document.getElementById("get_precip").innerHTML = result[0];
+		    document.getElementById("get_cor").innerHTML = result[1];
+		    document.getElementById("get_hum").innerHTML = result[2];
+		    document.getElementById("get_day").innerHTML = result[3];
+		    document.getElementById("get_temp").innerHTML = result[4];
+                }
+               
+                });
+        }
+        function del_details() {
+            var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '5000000', gas: '500000'});
+            var bid = document.getElementById("bid1").value;
+             var result = myContract.methods.burnMyToken(bid).send(function (err, result) {
+               
+                if (err) { console.log(err); }
+                });
+        }
+        </script>
+
+       
+        <h2>Weather update</h2>
+    <form>
+		<table style="width:25%"> 
+            <tr>
+			<td>Enter precipitation:</td>
+			<td><input type="text" id="precip" name="precip"></td>
+		  </tr>
+            <tr>
+			<td> Enter Chance of rain:</td>
+			<td><input type="text" id="cor" name="cor"></td>
+		  </tr>
+            <tr>
+			<td>Enter humidity:</td>
+			<td><input type="text" id="hum" name="hum"></td>
+		  </tr>
+	    <tr>
+			<td>Enter Day:</td>
+			<td><input type="text" id="day" name="day"></td>
+		  </tr>
+	    <tr>
+			<td>Enter temperature:</td>
+			<td><input type="text" id="temp" name="temp"></td>
+		  </tr>
+	    <tr>
+			<td>Enter location:</td>
+			<td><input type="text" id="loc" name="loc"></td>
+		  </tr>
+             <tr>
+		  <td><input type="button" onclick="add_details()" value="Register"></td>
+		  </tr>
+		</table>	
+	</form>
+        <h3>To get details of weather  <a href="report_details.html">Click Here</a></h3>
+    </body>
+</html>
