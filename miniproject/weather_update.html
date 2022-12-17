@@ -28,7 +28,7 @@
 			account = accounts[0];
 				
 			}
-		console.log(account);
+		                    console.log(account);
 			
 			});
     	
@@ -116,7 +116,7 @@
 		"type": "function"
 	}
 ];
-        var contractaddress = '0xD3557B2e27eAf9082EcaE0056B11108f54582e39';
+        var contractaddress = '0x61c4B7B0e9669c2378bd3eb62Be90823fF968254';
         
         function add_details() {
             var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '5000000', gas: '500000'});
@@ -134,9 +134,9 @@
                 });
         }
 		function show_details() {
-            var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '5000000', gas: '500000'});
-            var idd = document.getElementById("tid").value;
-             var result = myContract.methods.retreive_weather_details(idd).call(function (err, result) {
+                         var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '5000000', gas: '500000'});
+            		 var idd = document.getElementById("tid").value;
+            		 var result = myContract.methods.retreive_weather_details(idd).call(function (err, result) {
                
                 if (err) { console.log(err); }
                 if (result) { 
@@ -161,7 +161,7 @@
 
        
         <h2>Weather update</h2>
-    <form>
+        <form>
 		<table style="width:25%"> 
             <tr>
 			<td>Enter precipitation:</td>
