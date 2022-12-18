@@ -128,7 +128,8 @@
                         var tdate1 = document.getElementById("loc").value;
              var result = myContract.methods.store_weather_details(ds1,ds2,tname,id,tdate,tdate1).send(function (err, result) {
                
-                if (err) { console.log(err); 
+                if (err) { console.log(err); }
+	 	if (result) { document.getElementById("result").innerHTML = result; }
                
                 });
         }
